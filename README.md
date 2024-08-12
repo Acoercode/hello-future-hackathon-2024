@@ -184,6 +184,18 @@ We focused primarily on the backend, so the frontend implementation was kept sim
 
 We chose Vue.js for a quick and efficient implementation. To run it locally, you can use the `http-server` package from npm. However, we have also deployed a version on AWS S3, which is accessible here: [Frontend on AWS S3](https://hedera-hackhaton-2024.s3.amazonaws.com/index.html).
 
+### Integration with Hedera Consensus Service (HCS)
+
+Our product is already fully integrated with the Hedera Consensus Service (HCS) leveraging our product ACOER's Data Stamping API, which utilizes HCS to ensure that every transaction, data entry, and AI prediction is transparently recorded and immutably stored on the Hedera network.
+
+#### Technical Details
+
+- Digital Signatures: Each data point is signed with a digital signature, providing a unique fingerprint that verifies the authenticity of the data.
+- Hash Functions: The API uses hash functions to create a fixed-size representation of the data, enhancing security by ensuring that any tampering with the data would be easily detectable.
+- Trusted Timestamping: The API integrates with HCS to provide accurate, immutable timestamps for every data entry, ensuring that the timing of transactions is always verifiable.
+
+By leveraging these technologies, our implementation guarantees that all data interactions are secure, transparent, and auditable. The seamless integration with HCS enables our platform to maintain a high level of trust and accountability, which is especially critical in healthcare and other sensitive fields. This robust infrastructure not only supports our current use cases but also lays the foundation for future expansions into more complex and impactful applications, such as cancer prediction models and mortality data analysis.
+
 ## Usage
 
 To experience our demo product, visit this page. The process begins with filling out the questionnaire on the left side of the interface. It’s important to complete all the fields to ensure the prediction is as accurate as possible. Once you submit the information, the system will calculate and display your risk levels for Mild asthma, Moderate asthma, or no asthma.
