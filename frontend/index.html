@@ -100,7 +100,7 @@
                           <option value="60+">60+</option>
                       </select>
                   </div>
-                  <button class="btn btn-primary" @click="submitForm">Submit</button>
+                  <button class="btn btn-primary" @click="submitForm" :disabled="loading">Submit</button>
                 </div>
 
                 <div v-if="result" class="result">
@@ -138,6 +138,7 @@
                     age: ''
                 },
                 result: null,
+                loading: false, 
                 simulations: []
             },
             created() {
@@ -146,6 +147,9 @@
             },
             methods: {
                 submitForm() {
+
+                    this.loading = true;
+
                     // Prepare data
                     var request = {
                         "tiredness": this.formData.symptoms.indexOf("Tiredness") != -1 ? 1 : 0,
@@ -170,6 +174,7 @@
                     .then(response => response.json())
                     .then(data => {
                         this.result = data.request.result;
+                        this.loading = false;
                         this.fetchSimulations();
                     })
                     .catch(error => console.error('Error:', error));
