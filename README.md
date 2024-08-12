@@ -20,13 +20,13 @@
 
 ## Project Overview
 
-ClearPath AI is an innovative platform designed to enhance the transparency and auditability of AI-driven health predictions, starting with asthma and expanding to cancer and other critical health areas. By leveraging Hedera's decentralized ledger technology, ClearPath AI ensures that every data point, model trace, and prediction is immutably recorded, fostering trust in AI outcomes.
+HealthGuard AI is an innovative platform designed to enhance the transparency and auditability of AI-driven health predictions, starting with asthma and expanding to cancer and other critical health areas. By leveraging Hedera's decentralized ledger technology, HealthGuard AI ensures that every data point, model trace, and prediction is immutably recorded, fostering trust in AI outcomes.
 
 Our platform integrates with H2O for AI model development, offering a comprehensive API for seamless access and full traceability.
 
-ClearPath AI aims to revolutionize how AI models are perceived and utilized in healthcare, ensuring that the models are not black boxes but transparent, auditable, and trustworthy. This solution has broad implications for improving patient outcomes, especially in partnership with organizations like the Cancer Foundation.
+HealthGuard AI aims to revolutionize how AI models are perceived and utilized in healthcare, ensuring that the models are not black boxes but transparent, auditable, and trustworthy. This solution has broad implications for improving patient outcomes, especially in partnership with organizations like the Cancer Foundation.
 
-ClearPath AI contributes to the growth of the Hedera network by introducing a novel application in the healthcare industry, driving adoption through our various partnership including the Cancer Foundation and ensuring that AI in healthcare meets the highest standards of transparency and accountability.
+HealthGuard AI contributes to the growth of the Hedera network by introducing a novel application in the healthcare industry, driving adoption through our various partnership including the Cancer Foundation and ensuring that AI in healthcare meets the highest standards of transparency and accountability.
 
 ## Features
 
