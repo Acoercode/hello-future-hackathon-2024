@@ -1,0 +1,49 @@
+{
+  "version": "1.0.0",
+  "cells": [
+    {
+      "type": "md",
+      "input": "This flow explains how we used H2O train our model.\nFirst, let's import our file."
+    },
+    {
+      "type": "cs",
+      "input": "importFiles [ \"processed.csv\" ]"
+    },
+    {
+      "type": "md",
+      "input": "Then, let's parse it!"
+    },
+    {
+      "type": "cs",
+      "input": "setupParse source_frames: [ \"nfs://processed.csv\" ]"
+    },
+    {
+      "type": "cs",
+      "input": "parseFiles\n  source_frames: [\"nfs://processed.csv\"]\n  destination_frame: \"processed.hex\"\n  parse_type: \"CSV\"\n  separator: 44\n  number_columns: 10\n  single_quotes: false\n  column_names: [\"tiredness\",\"dryCough\",\"difficultyInBreathing\",\"soreThroat\",\"pains\",\"nasalCongestion\",\"runnyNose\",\"age\",\"gender\",\"severity\"]\n  column_types: [\"Numeric\",\"Numeric\",\"Numeric\",\"Numeric\",\"Numeric\",\"Numeric\",\"Numeric\",\"Enum\",\"Enum\",\"Enum\"]\n  delete_on_done: true\n  check_header: 1\n  chunk_size: 157742\n  escapechar: undefined"
+    },
+    {
+      "type": "md",
+      "input": "Then, let's split the dataset between the data used for training and validation."
+    },
+    {
+      "type": "cs",
+      "input": "splitFrame \"processed.hex\", [0.75], [\"processed_frame_0.750\",\"processed_frame_0.250\"], 884735"
+    },
+    {
+      "type": "md",
+      "input": "After several tests, the DeepLearning model was the one providing the best results."
+    },
+    {
+      "type": "cs",
+      "input": "buildModel 'deeplearning', {\"model_id\":\"deeplearning-32405943-9709-4332-918b-0582c77cffc8\",\"training_frame\":\"processed_frame_0.750\",\"validation_frame\":\"processed_frame_0.250\",\"nfolds\":0,\"response_column\":\"severity\",\"ignored_columns\":[],\"ignore_const_cols\":true,\"activation\":\"Rectifier\",\"hidden\":[200,200],\"epochs\":10,\"variable_importances\":true,\"score_each_iteration\":false,\"balance_classes\":false,\"max_confusion_matrix_size\":20,\"use_all_factor_levels\":true,\"standardize\":true,\"train_samples_per_iteration\":-2,\"adaptive_rate\":true,\"input_dropout_ratio\":0,\"l1\":0,\"l2\":0,\"loss\":\"Automatic\",\"distribution\":\"AUTO\",\"huber_alpha\":0.9,\"score_interval\":5,\"score_training_samples\":10000,\"score_validation_samples\":0,\"score_duty_cycle\":0.1,\"stopping_rounds\":5,\"stopping_metric\":\"AUTO\",\"stopping_tolerance\":0,\"max_runtime_secs\":0,\"autoencoder\":false,\"categorical_encoding\":\"AUTO\",\"auc_type\":\"AUTO\",\"gainslift_bins\":-1,\"overwrite_with_best_model\":true,\"target_ratio_comm_to_comp\":0.05,\"seed\":-1,\"rho\":0.99,\"epsilon\":1e-8,\"nesterov_accelerated_gradient\":true,\"max_w2\":3.4028235e+38,\"initial_weight_distribution\":\"UniformAdaptive\",\"classification_stop\":0,\"score_validation_sampling\":\"Uniform\",\"diagnostics\":true,\"fast_mode\":true,\"force_load_balance\":true,\"single_node_mode\":false,\"shuffle_training_data\":false,\"missing_values_handling\":\"MeanImputation\",\"quiet_mode\":false,\"sparse\":false,\"col_major\":false,\"average_activation\":0,\"sparsity_beta\":0,\"max_categorical_features\":2147483647,\"reproducible\":false,\"export_weights_and_biases\":false,\"mini_batch_size\":1,\"elastic_averaging\":false}"
+    },
+    {
+      "type": "md",
+      "input": "And finally, we can export it!"
+    },
+    {
+      "type": "cs",
+      "input": "getModel \"deeplearning-32405943-9709-4332-918b-0582c77cffc8\""
+    }
+  ]
+}

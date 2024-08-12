@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asthma Risk Assessment</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .app-container {
+            width: 80%;
+            max-width: 1200px;
+        }
+        .header, .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            margin-bottom: 20px;
+            max-width: 1140px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 0;
+        }
+        .left, .right {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .left {
+            margin-right: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .simulation-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .simulation-item p {
+          margin: 0;
+          font-size: smaller;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="app-container">
+        <div class="header">
+            <h1>Asthma Risk Assessment Tool</h1>
+            <p>This application helps assess the risk of asthma based on user symptoms, gender, and age. 
+            The left section contains a questionnaire, and upon submission, the risk levels are displayed. 
+            The right section shows the latest simulation results, updated every 5 seconds.</p>
+        </div>
+        <div class="container">
+            <div class="left">
+                <div v-if="!result">
+                  <h2>Questionnaire</h2>
+                  <div class="question">
+                      <label>Are you having any of these symptoms?</label>
+                      <div v-for="symptom in symptoms" :key="symptom">
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" :value="symptom" v-model="formData.symptoms">
+                              <label class="form-check-label">{{ symptom }}</label>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="question">
+                      <label>What's your gender?</label>
+                      <select class="form-control" v-model="formData.gender">
+                          <option value="" disabled selected>Select your gender</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                      </select>
+                  </div>
+                  <div class="question">
+                      <label>What's your age?</label>
+                      <select class="form-control" v-model="formData.age">
+                          <option value="" disabled selected>Select your age range</option>
+                          <option value="0-9">0-9</option>
+                          <option value="10-19">10-19</option>
+                          <option value="20-24">20-24</option>
+                          <option value="25-59">25-59</option>
+                          <option value="60+">60+</option>
+                      </select>
+                  </div>
+                  <button class="btn btn-primary" @click="submitForm">Submit</button>
+                </div>
+
+                <div v-if="result" class="result">
+                    <h3>Results</h3>
+                    <p>Mild Asthma Risk: {{ (parseFloat(result.mild) * 100.0).toFixed(2) }}%</p>
+                    <p>Moderate Asthma Risk: {{ (parseFloat(result.moderate) * 100.0).toFixed(2) }}%</p>
+                    <p>No Asthma Risk: {{ (parseFloat(result.none) * 100.0).toFixed(2) }}%</p>
+                    <button class="btn btn-secondary" @click="resetForm">Redo Simulation</button>
+                </div>
+            </div>
+            <div class="right">
+                <h2>Latest Simulations (10)</h2>
+                <div v-for="simulation in simulations" :key="simulation.transactionId" class="simulation-item">
+                    <p><strong>Symptoms:</strong> {{ simulation.request.symptoms.join(', ') }}</p>
+                    <p><strong>Gender:</strong> {{ simulation.request.gender }}</p>
+                    <p><strong>Age:</strong> {{ simulation.request.age }}</p>
+                    <p><strong>Mild Asthma Risk:</strong> {{ (parseFloat(simulation.request.result.mild) * 100.0).toFixed(2) }}%</p>
+                    <p><strong>Moderate Asthma Risk:</strong> {{ (parseFloat(simulation.request.result.moderate) * 100.0).toFixed(2) }}%</p>
+                    <p><strong>No Asthma Risk:</strong> {{ (parseFloat(simulation.request.result.none) * 100.0).toFixed(2) }}%</p>
+                    <p v-if="simulation.stamp.hederaTransactionId"><strong>Transaction ID:</strong> <a v-bind:href="'https://hashscan.io/testnet/transaction/' + simulation.stamp.hederaTransactionId" target="_blank"> {{ simulation.stamp.hederaTransactionId }} </a></p>
+                    <p v-if="!simulation.stamp.hederaTransactionId"><strong>Transaction ID:</strong> Let's wait few seconds...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                symptoms: ['Tiredness', 'Dry cough', 'Difficulty in breathing', 'Sore throat', 'Pains', 'Nasal congestion', 'Running nose'],
+                formData: {
+                    symptoms: [],
+                    gender: '',
+                    age: ''
+                },
+                result: null,
+                simulations: []
+            },
+            created() {
+                this.fetchSimulations();
+                setInterval(this.fetchSimulations, 5000); // Auto-refresh every 5 seconds
+            },
+            methods: {
+                submitForm() {
+                    // Prepare data
+                    var request = {
+                        "tiredness": this.formData.symptoms.indexOf("Tiredness") != -1 ? 1 : 0,
+                        "dryCough": this.formData.symptoms.indexOf("Dry cough") != -1 ? 1 : 0,
+                        "difficultyInBreathing": this.formData.symptoms.indexOf("Difficulty in breathing") != -1 ? 1 : 0,
+                        "soreThroat": this.formData.symptoms.indexOf("Sore throat") != -1 ? 1 : 0,
+                        "pains": this.formData.symptoms.indexOf("Pains") != -1 ? 1 : 0,
+                        "nasalCongestion": this.formData.symptoms.indexOf("Nasal congestion") != -1 ? 1 : 0,
+                        "runnyNose": this.formData.symptoms.indexOf("Running nose") != -1 ? 1 : 0,
+                        "age": this.formData.age,
+                        "gender": this.formData.gender
+                    };
+                    
+                    const endpoint = 'https://wo41zg8yv4.execute-api.us-east-1.amazonaws.com/predict';
+                    fetch(endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(request)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.result = data.request.result;
+                        this.fetchSimulations();
+                    })
+                    .catch(error => console.error('Error:', error));
+                },
+                resetForm() {
+                    this.formData = {
+                        symptoms: [],
+                        gender: '',
+                        age: ''
+                    };
+                    this.result = null;
+                },
+                fetchSimulations() {
+                    const endpoint = 'https://wo41zg8yv4.execute-api.us-east-1.amazonaws.com/predictions';
+                    fetch(endpoint)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.simulations = data;
+                        this.simulations.forEach(s => {
+                          s.request.symptoms = [];
+                          if (s.request.tiredness == 1) s.request.symptoms.push("Tiredness");
+                          if (s.request.dryCough == 1) s.request.symptoms.push("Dry cough");
+                          if (s.request.difficultyInBreathing == 1) s.request.symptoms.push("Difficulty in breathing");
+                          if (s.request.soreThroat == 1) s.request.symptoms.push("Sore throat");
+                          if (s.request.pains == 1) s.request.symptoms.push("Pains");
+                          if (s.request.nasalCongestion == 1) s.request.symptoms.push("Nasal congestion");
+                          if (s.request.runnyNose == 1) s.request.symptoms.push("Running nose");
+                        })
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: acoer
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: hackhaton
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: hackhaton-predict
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  timeout: 20
+  environment:
+    MONGODB_URI: 'XXX'
+    HASHLOG_API_KEY: 'YYY'
+    PREDICT_ENDPOINT: 'http://34.207.200.229:5000/predict'
+  httpApi:
+    cors: true
+
+functions:
+  predict:
+    handler: handler.predict
+    events:
+      - httpApi:
+          path: /predict
+          method: post
+  webhook:
+    handler: handler.webhook
+    events:
+      - httpApi:
+          path: /webhook
+          method: post
+  getPredictions:
+    handler: handler.getLatestPredictions
+    events:
+      - httpApi:
+          path: /predictions
+          method: get
