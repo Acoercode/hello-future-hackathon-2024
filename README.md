@@ -221,10 +221,10 @@ The thoughtful integration with Hedera, coupled with our commitment to addressin
 
 ## Contributors
 
-Adei Mandaluniz - Backend Developer - https://github.com/amandaluniz
-Ashley MacWhirter - Frontend Developer - https://github.com/amacwhirter
-Ben Chevallereau - Backend Developer - https://github.com/bchevallereau
-Lindsay Lee - Project Manager
+- Adei Mandaluniz - Backend Developer - https://github.com/amandaluniz
+- Ashley MacWhirter - Frontend Developer - https://github.com/amacwhirter
+- Ben Chevallereau - Backend Developer - https://github.com/bchevallereau
+- Lindsay Lee - Project Manager
 
 ## License
 
