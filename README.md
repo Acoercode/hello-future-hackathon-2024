@@ -213,7 +213,7 @@ Building on this foundation, our vision extends far beyond asthma. At ACOER, lev
 
 These advancements align with our commitment to innovation, feasibility, and impact—key judging criteria in this hackathon. By focusing on more critical health issues, we aim to deliver a solution that not only demonstrates technological prowess but also brings meaningful benefits to healthcare, making AI both transparent and ethically sound.
 
-## Why This Project Should Win?
+## Why This Project Should Win
 
 Our project exemplifies the spirit of innovation by seamlessly integrating AI with blockchain to create a transparent, auditable healthcare solution. Starting with asthma prediction, we laid a strong foundation while demonstrating the feasibility of using Hedera's technology for ethical AI. Our deep focus on execution ensured a high-quality implementation, with a clear path for success through our partnerships with the Cancer Foundation and leveraging HDE for broader health applications.
 
