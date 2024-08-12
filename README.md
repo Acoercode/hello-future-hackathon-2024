@@ -190,6 +190,8 @@ To experience our demo product, visit this page. The process begins with filling
 
 As soon as the prediction is generated, a new entry will appear on the right side of the interface, detailing your simulation. Initially, the Hedera transaction ID will be missing until the transaction is fully processed. Once completed, the transaction ID will appear, allowing you to click on it to open Hashscan. This ID represents a Topic Message within the Hedera Consensus Service (HCS). By viewing the message associated with the transaction, you can verify the input data and the prediction provided, ensuring transparency and auditability in the process.
 
+![Asthma Assessment Tool](./images/asthma-assessment-tool.png)
+
 ## Demo
 
 TODO
