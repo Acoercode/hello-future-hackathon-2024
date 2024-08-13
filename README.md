@@ -210,7 +210,7 @@ TODO
 
 ## Architecture
 
-TODO
+![Architecture Diagram](./images/architecture-diagram.png)
 
 ## Challenges Faced
 
