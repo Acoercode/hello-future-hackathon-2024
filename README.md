@@ -206,7 +206,7 @@ As soon as the prediction is generated, a new entry will appear on the right sid
 
 ## Demo
 
-TODO
+The Youtube video can be viewed [here](https://www.youtube.com/watch?v=3sWl2PfjWiE).
 
 ## Architecture
 
