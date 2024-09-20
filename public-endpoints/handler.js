@@ -17,7 +17,7 @@ module.exports.predict = async (event) => {
 
   // Send the request to the prediction endpoint
   let prediction = await superagent
-    .post("http://34.207.200.229:5000/predict")
+    .post("http://34.228.244.254:5000/predict")
     .send(request);
 
   let result = {};

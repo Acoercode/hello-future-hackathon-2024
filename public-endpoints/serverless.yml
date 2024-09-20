@@ -12,7 +12,7 @@ provider:
   environment:
     MONGODB_URI: 'XXX'
     HASHLOG_API_KEY: 'YYY'
-    PREDICT_ENDPOINT: 'http://34.207.200.229:5000/predict'
+    PREDICT_ENDPOINT: 'http://34.228.244.254:5000/predict'
   httpApi:
     cors: true
 

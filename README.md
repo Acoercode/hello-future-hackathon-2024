@@ -145,7 +145,7 @@ This result indicates a 25% risk of mild asthma, 25% risk of moderate asthma, an
 
 We published this docker image in a public repository that we host in AWS ECR: `public.ecr.aws/y3q1s2x2/ac-py-predict`. So anyone can just pull the latest image: `public.ecr.aws/y3q1s2x2/ac-py-predict:latest`.
 
-Ideally this prediction endpoint won't be public and will be accessible only from the endpoint documented in the following section. For this hackhaton, we deployed it in our AWS instance using ECS. The endpoint is: `http://34.207.200.229:5000/predict` (Note: This endpoint may not be available in the future).
+Ideally this prediction endpoint won't be public and will be accessible only from the endpoint documented in the following section. For this hackhaton, we deployed it in our AWS instance using ECS. The endpoint is: `http://34.228.244.254:5000/predict` (Note: This endpoint may not be available in the future).
 
 ### Exposing the Public Endpoints
 
@@ -165,7 +165,7 @@ To deploy this in your AWS account, update the following environment variables i
   environment:
     MONGODB_URI: 'XXX'
     HASHLOG_API_KEY: 'YYY'
-    PREDICT_ENDPOINT: 'http://34.207.200.229:5000/predict'
+    PREDICT_ENDPOINT: 'http://34.228.244.254:5000/predict'
 ```
 
 Then, run the deployment with:
